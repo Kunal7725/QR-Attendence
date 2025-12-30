@@ -81,7 +81,7 @@ export const AuthProvider = ({ children }) => {
         throw new Error('Password must be at least 6 characters');
       }
 
-      const result = await apiStudentSignup({ name, roleNo, batch, email, mobile, password });
+      const result = await apiStudentSignup({ name, rollNo, batch, email, mobile, password });
       
       if (result.message === 'User successfully registered') {
         return { success: true, message: result.message + ' Please wait for admin approval.' };
@@ -128,7 +128,7 @@ export const AuthProvider = ({ children }) => {
             studentId: result.user.id,
             name: result.user.name,
             email: result.user.email,
-            status: 'Active' // Backend doesn't have status yet, default to Active
+            status: result.user.status || 'Active'
           };
           
           setCurrentUser(userSession);

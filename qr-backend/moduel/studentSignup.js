@@ -4,7 +4,7 @@ const userSchema = new mongoose.Schema({
     roleNo:{type:String,required:true},
     batch:{type:String, required:true},
     email:{type:String,required:true},
-    mobile:{type:Number,required:true},
+    mobile:{type:String,required:true},
     password:{type:String,required:true},
     status:{type:String, enum:['Pending', 'Active', 'Rejected'], default:'Pending'}
 }, {timestamps: true})
