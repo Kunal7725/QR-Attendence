@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { getData, saveData, addData } from '../utils/storageUtils';
-import { generateId } from '../utils/mockData';
+import { adminSignup as apiAdminSignup, adminLogin as apiAdminLogin, studentSignup as apiStudentSignup, studentLogin as apiStudentLogin } from '../utils/api';
 import { isValidEmail, isValidPassword } from '../utils/validationUtils';
 
 const AuthContext = createContext();
@@ -18,7 +17,6 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check if user is already logged in
     const user = localStorage.getItem('currentUser');
     if (user) {
       setCurrentUser(JSON.parse(user));
@@ -31,7 +29,6 @@ export const AuthProvider = ({ children }) => {
     try {
       const { name, email, password, coachingName, contact } = formData;
       
-      // Validation
       if (!name || !email || !password || !coachingName || !contact) {
         throw new Error('All fields are required');
       }
@@ -44,39 +41,23 @@ export const AuthProvider = ({ children }) => {
         throw new Error('Password must be at least 6 characters');
       }
 
-      // Check if admin already exists
-      const admins = getData('admins');
-      const existingAdmin = admins.find(admin => admin.email === email);
-      if (existingAdmin) {
-        throw new Error('Admin with this email already exists');
+      const result = await apiAdminSignup({ name, email, password, coachingName, contact });
+      
+      if (result.message === 'Admin registered successfully') {
+        const userSession = {
+          role: 'admin',
+          adminId: result.admin.id || 'temp_id',
+          name: result.admin.name,
+          email: result.admin.email
+        };
+        
+        setCurrentUser(userSession);
+        localStorage.setItem('currentUser', JSON.stringify(userSession));
+        
+        return { success: true, user: userSession };
+      } else {
+        return { success: false, error: result.message };
       }
-
-      // Create new admin
-      const newAdmin = {
-        adminId: generateId('ADM'),
-        name,
-        email,
-        password, // In real app, this should be hashed
-        coachingName,
-        contact,
-        status: 'Active',
-        createdAt: new Date().toISOString()
-      };
-
-      addData('admins', newAdmin);
-      
-      // Auto login after signup
-      const userSession = {
-        role: 'admin',
-        adminId: newAdmin.adminId,
-        name: newAdmin.name,
-        email: newAdmin.email
-      };
-      
-      setCurrentUser(userSession);
-      localStorage.setItem('currentUser', JSON.stringify(userSession));
-      
-      return { success: true, user: userSession };
     } catch (error) {
       console.error('Admin signup error:', error);
       return { success: false, error: error.message };
@@ -88,7 +69,6 @@ export const AuthProvider = ({ children }) => {
     try {
       const { name, rollNo, batch, email, mobile, password } = formData;
       
-      // Validation
       if (!name || !rollNo || !batch || !email || !mobile || !password) {
         throw new Error('All fields are required');
       }
@@ -101,31 +81,13 @@ export const AuthProvider = ({ children }) => {
         throw new Error('Password must be at least 6 characters');
       }
 
-      // Check if student already exists
-      const students = getData('students');
-      const existingStudent = students.find(student => 
-        student.email === email || student.rollNo === rollNo
-      );
-      if (existingStudent) {
-        throw new Error('Student with this email or roll number already exists');
-      }
-
-      // Create new student
-      const newStudent = {
-        studentId: generateId('STU'),
-        name,
-        rollNo,
-        batch,
-        email,
-        mobile,
-        password, // In real app, this should be hashed
-        status: 'Pending', // Needs admin approval
-        createdAt: new Date().toISOString()
-      };
-
-      addData('students', newStudent);
+      const result = await apiStudentSignup({ name, roleNo, batch, email, mobile, password });
       
-      return { success: true, message: 'Account created! Please wait for admin approval.' };
+      if (result.message === 'User successfully registered') {
+        return { success: true, message: result.message + ' Please wait for admin approval.' };
+      } else {
+        return { success: false, error: result.message };
+      }
     } catch (error) {
       console.error('Student signup error:', error);
       return { success: false, error: error.message };
@@ -140,44 +102,42 @@ export const AuthProvider = ({ children }) => {
       }
 
       if (role === 'admin') {
-        const admins = getData('admins');
-        const admin = admins.find(a => a.email === email && a.password === password);
+        const result = await apiAdminLogin({ email, password });
         
-        if (!admin) {
-          throw new Error('Invalid admin credentials');
+        if (result.message === 'Login successful') {
+          const userSession = {
+            role: 'admin',
+            adminId: result.admin.id,
+            name: result.admin.name,
+            email: result.admin.email
+          };
+          
+          setCurrentUser(userSession);
+          localStorage.setItem('currentUser', JSON.stringify(userSession));
+          
+          return { success: true, user: userSession };
+        } else {
+          return { success: false, error: result.message };
         }
-
-        const userSession = {
-          role: 'admin',
-          adminId: admin.adminId,
-          name: admin.name,
-          email: admin.email
-        };
-        
-        setCurrentUser(userSession);
-        localStorage.setItem('currentUser', JSON.stringify(userSession));
-        
-        return { success: true, user: userSession };
       } else {
-        const students = getData('students');
-        const student = students.find(s => s.email === email && s.password === password);
+        const result = await apiStudentLogin({ email, password });
         
-        if (!student) {
-          throw new Error('Invalid student credentials');
+        if (result.message === 'Login successful') {
+          const userSession = {
+            role: 'student',
+            studentId: result.user.id,
+            name: result.user.name,
+            email: result.user.email,
+            status: 'Active' // Backend doesn't have status yet, default to Active
+          };
+          
+          setCurrentUser(userSession);
+          localStorage.setItem('currentUser', JSON.stringify(userSession));
+          
+          return { success: true, user: userSession };
+        } else {
+          return { success: false, error: result.message };
         }
-
-        const userSession = {
-          role: 'student',
-          studentId: student.studentId,
-          name: student.name,
-          email: student.email,
-          status: student.status
-        };
-        
-        setCurrentUser(userSession);
-        localStorage.setItem('currentUser', JSON.stringify(userSession));
-        
-        return { success: true, user: userSession };
       }
     } catch (error) {
       console.error('Login error:', error);
