@@ -1,0 +1,226 @@
+.student-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.student-content {
+  display: flex;
+  flex: 1;
+}
+
+.student-main {
+  flex: 1;
+  margin-left: 250px;
+  padding: 30px;
+  background-color: var(--background-color);
+  min-height: calc(100vh - 70px);
+}
+
+.student-page-header {
+  margin-bottom: 30px;
+}
+
+.student-page-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: 8px;
+}
+
+.student-page-subtitle {
+  color: #7f8c8d;
+  font-size: 14px;
+}
+
+/* Status alerts for students */
+.status-alert {
+  padding: 15px 20px;
+  border-radius: var(--border-radius);
+  margin-bottom: 25px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 500;
+}
+
+.status-alert.pending {
+  background-color: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeaa7;
+}
+
+.status-alert.active {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.status-icon {
+  font-size: 20px;
+}
+
+.status-message {
+  flex: 1;
+}
+
+/* Student dashboard specific styles */
+.student-dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 25px;
+  margin-bottom: 30px;
+}
+
+.attendance-summary {
+  background: white;
+  padding: 25px;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+}
+
+.summary-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.summary-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.attendance-percentage {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--secondary-color);
+}
+
+.summary-stats {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.stat-label {
+  font-size: 12px;
+  color: #7f8c8d;
+  text-transform: uppercase;
+}
+
+/* QR Scanner specific styles */
+.scanner-container {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.scanner-card {
+  background: white;
+  padding: 30px;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+.scanner-header {
+  margin-bottom: 25px;
+}
+
+.scanner-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 8px;
+}
+
+.scanner-subtitle {
+  color: #7f8c8d;
+  font-size: 14px;
+}
+
+.camera-preview {
+  width: 100%;
+  max-width: 400px;
+  height: 300px;
+  border: 2px dashed #ddd;
+  border-radius: var(--border-radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px auto;
+  background: #f8f9fa;
+}
+
+.camera-placeholder {
+  text-align: center;
+  color: #7f8c8d;
+}
+
+.camera-icon {
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .student-main {
+    margin-left: 0;
+    padding: 20px 15px;
+  }
+  
+  .student-page-title {
+    font-size: 24px;
+  }
+  
+  .student-dashboard-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .attendance-summary {
+    padding: 20px;
+  }
+  
+  .scanner-card {
+    padding: 25px 20px;
+  }
+  
+  .camera-preview {
+    height: 250px;
+  }
+}
+
+@media (max-width: 480px) {
+  .student-main {
+    padding: 15px 10px;
+  }
+  
+  .student-page-title {
+    font-size: 22px;
+  }
+  
+  .status-alert {
+    padding: 12px 15px;
+    font-size: 14px;
+  }
+  
+  .scanner-card {
+    padding: 20px 15px;
+  }
+  
+  .camera-preview {
+    height: 200px;
+  }
+}

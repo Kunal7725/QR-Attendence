@@ -1,0 +1,71 @@
+.student-table-container {
+  background: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.table-header {
+  padding: 20px 25px;
+  border-bottom: 1px solid #eee;
+}
+
+.table-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.student-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.student-table th,
+.student-table td {
+  padding: 15px 25px;
+  text-align: left;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.student-table th {
+  background: #f8f9fa;
+  font-weight: 600;
+}
+
+.student-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.student-avatar {
+  width: 40px;
+  height: 40px;
+  background: var(--primary-color);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+}
+
+.action-btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: 12px;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.action-btn.approve {
+  background: var(--secondary-color);
+  color: white;
+}
+
+.action-btn.reject {
+  background: var(--danger-color);
+  color: white;
+}

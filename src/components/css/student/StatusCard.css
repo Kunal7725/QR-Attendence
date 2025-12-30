@@ -1,0 +1,34 @@
+.status-card {
+  background: white;
+  padding: 25px;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+.status-card.active {
+  border-left: 4px solid var(--secondary-color);
+}
+
+.status-card.pending {
+  border-left: 4px solid var(--warning-color);
+}
+
+.status-icon {
+  font-size: 48px;
+  margin-bottom: 15px;
+  display: block;
+}
+
+.status-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 8px;
+}
+
+.status-message {
+  color: #7f8c8d;
+  font-size: 14px;
+  line-height: 1.5;
+}

@@ -1,0 +1,155 @@
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+  padding: 20px 0;
+}
+
+/* Auth pages layout */
+.auth-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.auth-card {
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  width: 100%;
+  max-width: 450px;
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.auth-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: 8px;
+}
+
+.auth-subtitle {
+  color: #666;
+  font-size: 14px;
+}
+
+.auth-form {
+  margin-bottom: 20px;
+}
+
+.auth-footer {
+  text-align: center;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+.auth-link {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.auth-link:hover {
+  text-decoration: underline;
+}
+
+/* Role selection */
+.role-selector {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.role-option {
+  flex: 1;
+  padding: 15px;
+  border: 2px solid #ddd;
+  border-radius: var(--border-radius);
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition);
+  background: white;
+}
+
+.role-option:hover {
+  border-color: var(--primary-color);
+}
+
+.role-option.active {
+  border-color: var(--primary-color);
+  background-color: rgba(52, 152, 219, 0.1);
+}
+
+.role-title {
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 5px;
+}
+
+.role-desc {
+  font-size: 12px;
+  color: #666;
+}
+
+/* Dashboard layout */
+.dashboard-container {
+  display: flex;
+  min-height: calc(100vh - 80px);
+}
+
+.dashboard-sidebar {
+  width: 250px;
+  background: white;
+  box-shadow: var(--shadow);
+  position: fixed;
+  height: calc(100vh - 80px);
+  overflow-y: auto;
+}
+
+.dashboard-main {
+  flex: 1;
+  margin-left: 250px;
+  padding: 20px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .auth-card {
+    margin: 20px;
+    padding: 30px 20px;
+  }
+  
+  .auth-title {
+    font-size: 24px;
+  }
+  
+  .role-selector {
+    flex-direction: column;
+  }
+  
+  .dashboard-sidebar {
+    width: 100%;
+    position: relative;
+    height: auto;
+  }
+  
+  .dashboard-main {
+    margin-left: 0;
+    padding: 15px;
+  }
+  
+  .dashboard-container {
+    flex-direction: column;
+  }
+}
